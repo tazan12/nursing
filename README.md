@@ -27,6 +27,8 @@ python -m http.server 8080
 
 저장소 Settings → Pages → Build and deployment의 Source를 **GitHub Actions**로 지정하면 `main` 브랜치 변경 때 자동 배포됩니다.
 
+배포 주소: https://tazan12.github.io/nursing/
+
 ## 데이터와 저작권
 
 이 인터페이스는 ECG-QA 데이터셋 구조와 교육 아이디어를 참고한 독립 구현입니다. 현재 포함된 문항과 파형은 교육용으로 새로 작성·합성했으며 실제 PTB-XL 또는 MIMIC-IV-ECG 원시 파형을 포함하지 않습니다.
