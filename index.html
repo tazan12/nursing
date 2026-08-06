@@ -2,78 +2,18 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07111f">
-  <meta name="description" content="PTB-XL 및 ECG-QA 구조를 활용한 반응형 심전도 학습 앱">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=3">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="refresh" content="0; url=./docs/?v=c8fc166">
   <title>ECG Rhythm Lab</title>
 </head>
 <body>
-  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="홈으로">
-      <span class="brand-mark"><svg viewBox="0 0 48 48"><path d="M4 25h8l4-10 7 22 6-17 4 5h11"/></svg></span>
-      <span><b>ECG Rhythm Lab</b><small>PTB-XL Learning Studio</small></span>
-    </a>
-    <div class="header-actions"><span id="dataStatus" class="status-dot">데이터 확인 중</span><button id="installBtn" class="button secondary" hidden>앱 설치</button></div>
-  </header>
-
-  <main class="shell">
-    <section class="hero panel">
-      <div class="hero-copy"><span class="kicker">NURSING · ECG INTERPRETATION</span><h1>파형을 읽고,<br><em>임상 판단</em>까지 연결하세요.</h1><p>허혈성 ST-T 변화, 심근경색, 심방·심실 부정맥과 전도장애를 모바일과 PC에서 단계적으로 학습합니다.</p><div class="hero-badges"><span>반응형</span><span>오프라인 지원</span><span>PTB-XL 매핑</span></div></div>
-      <div class="score-ring" aria-label="정답률"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle id="scoreRing" class="ring-value" cx="60" cy="60" r="50"/></svg><div><strong id="scorePercent">0%</strong><span>정답률</span></div></div>
-    </section>
-
-    <section class="stats-grid">
-      <article class="mini-card"><span>푼 문제</span><strong id="totalSolved">0</strong><small>questions</small></article>
-      <article class="mini-card"><span>정답</span><strong id="totalCorrect">0</strong><small>correct</small></article>
-      <article class="mini-card"><span>경험 사례</span><strong id="seenCases">0</strong><small id="allCases">/ 0</small></article>
-      <article class="mini-card accent-card"><span>현재 데이터</span><strong id="datasetName">PTB-XL</strong><small>mapped learning set</small></article>
-    </section>
-
-    <section class="filter-panel panel">
-      <div class="filter-title"><span class="icon">⌁</span><div><strong>학습 설정</strong><small>원하는 영역과 난이도를 선택하세요.</small></div></div>
-      <label><span>학습 영역</span><select id="category"><option value="전체">전체 영역</option></select></label>
-      <label><span>난이도</span><select id="level"><option value="all">전체 난이도</option><option value="basic">기초</option><option value="advanced">심화</option></select></label>
-      <button id="nextBtn" class="button primary">새 문제 받기 <span>→</span></button>
-    </section>
-
-    <section class="workspace">
-      <article class="monitor panel">
-        <div class="monitor-head">
-          <div><div class="tag-row"><span id="caseTag" class="tag">리듬</span><span id="sourceTag" class="tag subtle">PTB-XL</span></div><h2 id="caseTitle">문제를 준비하고 있습니다</h2></div>
-          <div class="vital"><span>HEART RATE</span><div><strong id="heartRate">--</strong><small>bpm</small></div></div>
-        </div>
-        <div class="rhythm-meta"><span><i></i><b>리듬</b><em id="regularity">확인 중</em></span><span><i></i><b>Lead</b><em id="leadName">II</em></span><span><i></i><b>속도</b><em>25 mm/s</em></span></div>
-        <div class="ecg-screen"><div class="scanline"></div><svg id="ecgSvg" viewBox="0 0 1000 320" role="img" aria-labelledby="waveTitle"><title id="waveTitle">교육용 심전도 파형</title><defs><pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" class="grid-small" fill="none"/></pattern><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#smallGrid)"/><path d="M50 0H0V50" class="grid-large" fill="none"/></pattern></defs><rect width="1000" height="320" fill="url(#grid)"/><path id="wavePath" class="wave" d=""/></svg></div>
-        <div class="monitor-foot"><span>교육용 학습 파형</span><span id="recordId">ECG ID —</span></div>
-      </article>
-
-      <aside class="quiz panel">
-        <div class="quiz-step"><span>QUESTION</span><b id="questionNumber">01</b></div>
-        <h2 id="question">문제를 불러오는 중입니다.</h2>
-        <div id="options" class="options" aria-live="polite"></div>
-        <div id="feedback" class="feedback" hidden></div>
-        <button id="explainBtn" class="button secondary wide" hidden>판독 근거 확인</button>
-      </aside>
-    </section>
-
-    <section id="explanation" class="explanation panel" hidden>
-      <div class="section-heading"><span>CLINICAL REASONING</span><h2>판독 근거와 우선 간호</h2></div>
-      <p id="explanationText"></p>
-      <div class="reason-grid"><article><span>핵심 ECG 소견</span><strong id="keyFinding"></strong></article><article><span>우선 간호 판단</span><strong id="nursingAction"></strong></article><article><span>SCP 코드</span><strong id="scpCodes"></strong></article></div>
-    </section>
-
-    <section class="history panel">
-      <div class="section-heading inline"><div><span>LEARNING PROGRESS</span><h2>학습 기록</h2></div><button id="resetBtn" class="text-button">기록 초기화</button></div>
-      <div class="progress-track"><div id="progressBar"></div></div><p id="progressText">아직 풀이 기록이 없습니다.</p>
-      <div id="historyList" class="history-list"></div>
-    </section>
-
-    <div id="errorBanner" class="error-banner" hidden><strong>데이터를 불러오지 못했습니다.</strong><span id="errorMessage"></span><button id="retryBtn">다시 시도</button></div>
-  </main>
-  <footer><b>ECG Rhythm Lab</b><span>PTB-XL과 ECG-QA 구조를 활용한 독립 교육용 인터페이스 · 실제 진단 및 환자 처치에 사용하지 마세요.</span></footer>
-  <script src="./app.js?v=3" defer></script>
+  <p><a href="./docs/?v=c8fc166">최신 ECG Rhythm Lab을 여는 중입니다.</a></p>
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(items=>items.forEach(item=>item.unregister()));
+    location.replace('./docs/?v=c8fc166');
+  </script>
 </body>
 </html>
