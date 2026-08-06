@@ -15,12 +15,12 @@
 </head>
 <body>
 <main class="wrap">
-  <div class="top"><div class="brand">ECG Rhythm Lab<small>임상 심전도 학습 스튜디오</small></div><div class="tag">파형 엔진 v3 · LIVE</div></div>
+  <div class="top"><div class="brand">ECG Rhythm Lab<small>임상 심전도 학습 스튜디오</small></div><div class="tag">파형 엔진 v4 · LIVE</div></div>
   <section class="hero card"><div><span class="tag">NURSING · ECG</span><h1>파형을 읽고,<br><em>임상 판단</em>까지</h1><p>정상 리듬부터 심방세동, 심실빈맥, 완전 방실차단까지 실제 모니터처럼 움직이는 파형으로 학습합니다.</p></div><div class="score"><strong id="pct">0%</strong><span>정답률</span></div></section>
   <section class="controls card"><select id="cat"><option>전체</option></select><select id="level"><option value="all">전체 난이도</option><option value="basic">기초</option><option value="advanced">심화</option></select><button id="next">다음 문제</button></section>
   <section class="grid"><article class="monitor card"><div class="head"><div><span id="tag" class="tag">리듬</span><h2 id="title">문제 준비 중</h2><div class="meta"><span id="regularity"></span><span>Lead II</span><span>25 mm/s</span></div></div><div><span class="hr" id="hr">--</span> bpm</div></div><div class="screen"><canvas id="ecg" aria-label="움직이는 심전도 파형"></canvas><div id="sweep" class="sweep"></div></div></article><aside class="quiz card"><div class="tag">QUESTION</div><h2 id="q" class="question"></h2><div id="opts" class="opts"></div><div id="fb" class="feedback"></div></aside></section>
   <section id="exp" class="explain card"><h2>판독 근거와 우선 간호</h2><p id="desc"></p><p><b>핵심 소견:</b> <span id="finding"></span></p><p><b>우선 간호:</b> <span id="action"></span></p></section>
-  <div class="foot">교육용 합성 파형입니다. 실제 진단이나 환자 처치에 사용하지 마세요.</div>
+  <div class="foot">PhysioNet MIT-BIH Arrhythmia Database 및 AHA/ACC/HRS 판독 기준을 참고한 교육용 합성 파형입니다. 실제 진단이나 환자 처치에 사용하지 마세요.<br><a href="https://physionet.org/content/mitdb/1.0.0/" target="_blank" rel="noopener" style="color:var(--mint)">MIT-BIH 자료</a> · <a href="https://www.heart.org/-/media/Files/Professional/Quality-Improvement/Get-With-the-Guidelines/Get-With-The-Guidelines-AFIB/AFib-Month/joglaretal20232023areportofaccahaaccphrsguidelineforthediagnosisandmanagementofatrialfibrillation.pdf" target="_blank" rel="noopener" style="color:var(--mint)">ACC/AHA/HRS AF 지침</a></div>
 </main>
 <script>
 const data=[
@@ -31,10 +31,21 @@ const data=[
  {c:'심방성 부정맥',l:'advanced',t:'심방조동 (4:1 전도)',h:75,r:'심방 규칙적 · 심실 규칙적',q:'반복적인 톱니모양 F파와 고정 전도비가 보이는 리듬은?',o:['심방조동','심실세동','정상 동성리듬','동성정지'],a:0,d:'약 300회의 규칙적인 F파 중 네 번째마다 QRS가 발생하는 4:1 전도를 표현합니다.',f:'톱니모양 F파, 고정 4:1 전도',n:'심실 반응과 혈역학적 안정성을 확인합니다.',w:'flutter'},
  {c:'심실성 부정맥',l:'advanced',t:'단형 심실빈맥',h:182,r:'규칙적',q:'저혈압을 동반한 넓은 QRS 빈맥에서 우선 확인할 것은?',o:['맥박과 혈역학적 안정성','P파만 확인','정상 리듬 기록','보행 권장'],a:0,d:'심실빈맥은 넓고 규칙적이며 같은 모양의 QRS가 빠르게 반복됩니다.',f:'규칙적인 넓은 단형 QRS 빈맥',n:'맥박 확인, 응급 호출, 동기화 심율동전환을 준비합니다.',w:'vt'},
  {c:'심실성 부정맥',l:'advanced',t:'심실세동',h:0,r:'무질서',q:'맥박이 없고 조직화된 QRS가 없는 경우 우선 처치는?',o:['즉시 CPR과 제세동','보행 격려','24시간 뒤 재평가','경구 수분'],a:0,d:'심실세동은 유효한 심박출이 없는 치명적 리듬입니다.',f:'진폭과 주기가 불규칙한 무질서 파형, QRS 없음',n:'즉시 CPR을 시작하고 제세동을 시행합니다.',w:'vf'},
- {c:'전도장애',l:'advanced',t:'완전 방실차단',h:38,r:'P-P와 R-R 각각 규칙적',q:'P파와 QRS가 서로 독립적으로 진행하는 소견은?',o:['3도 방실차단','정상 동성리듬','심방세동','PVC'],a:0,d:'심방과 심실이 독립적으로 탈분극하며 느린 심실 이탈리듬이 나타납니다.',f:'규칙적 P파와 느린 QRS 사이의 방실해리',n:'저관류 증상을 확인하고 경피적 심박동조율을 준비합니다.',w:'block'}
+ {c:'전도장애',l:'advanced',t:'완전 방실차단',h:38,r:'P-P와 R-R 각각 규칙적',q:'P파와 QRS가 서로 독립적으로 진행하는 소견은?',o:['3도 방실차단','정상 동성리듬','심방세동','PVC'],a:0,d:'심방과 심실이 독립적으로 탈분극하며 느린 심실 이탈리듬이 나타납니다.',f:'규칙적 P파와 느린 QRS 사이의 방실해리',n:'저관류 증상을 확인하고 경피적 심박동조율을 준비합니다.',w:'block'},
+ {c:'동성리듬',l:'basic',t:'동성서맥',h:46,r:'규칙적',q:'정상 P-QRS 관계를 유지하면서 분당 60회 미만인 리듬은?',o:['동성서맥','접합부빈맥','심방세동','심실조동'],a:0,d:'동방결절에서 시작하지만 속도가 느린 리듬입니다.',f:'정상 P-QRS-T, 규칙적 R-R, 46 bpm',n:'의식·혈압·흉통 등 증상 유무를 우선 확인합니다.',w:'brady'},
+ {c:'동성리듬',l:'basic',t:'동성빈맥',h:118,r:'규칙적',q:'모든 QRS 앞에 정상 P파가 있고 심박수가 100회 이상인 리듬은?',o:['동성빈맥','심실빈맥','심방조동','완전 방실차단'],a:0,d:'교감신경 자극이나 생리적 원인으로 동방결절 속도가 빨라진 상태입니다.',f:'정상 P-QRS 관계, 점진적이고 규칙적인 빈맥',n:'발열·통증·저혈량·저산소증 등 원인을 찾아 교정합니다.',w:'tachy'},
+ {c:'상심실성 부정맥',l:'advanced',t:'발작성 상심실성 빈맥',h:178,r:'매우 규칙적',q:'갑자기 시작된 좁고 매우 규칙적인 QRS 빈맥의 판독은?',o:['상심실성 빈맥','심방세동','심실세동','동성서맥'],a:0,d:'P파가 QRS에 묻히거나 직후 역행성으로 보일 수 있는 규칙적 협폭 빈맥입니다.',f:'규칙적 협폭 QRS, P파 식별 어려움',n:'안정성을 평가하고 미주신경 자극 및 처방된 아데노신을 준비합니다.',w:'svt'},
+ {c:'조기수축',l:'basic',t:'심실조기수축 (PVC)',h:76,r:'간헐적 조기박동',q:'넓고 기괴한 조기 QRS 뒤 완전 보상성 휴지가 나타나는 소견은?',o:['PVC','PAC','정상 동성리듬','1도 방실차단'],a:0,d:'심실의 이소성 초점에서 정상 주기보다 일찍 발생한 박동입니다.',f:'선행 P파 없는 넓은 조기 QRS와 보상성 휴지',n:'빈도·연속성·증상 및 전해질 이상을 확인합니다.',w:'pvc'},
+ {c:'조기수축',l:'advanced',t:'심실 이단맥',h:72,r:'정상박동과 PVC 교대',q:'정상 QRS 뒤마다 PVC가 한 번씩 반복되는 배열은?',o:['심실 이단맥','심실 삼단맥','심방조동','동성부정맥'],a:0,d:'정상박동과 PVC가 1:1로 교대하는 심실 이단맥입니다.',f:'정상-QRS/PVC 교대와 반복되는 보상성 휴지',n:'관류·흉통·전해질과 PVC 부담을 평가합니다.',w:'bigeminy'},
+ {c:'조기수축',l:'basic',t:'심방조기수축 (PAC)',h:82,r:'간헐적 조기박동',q:'모양이 다른 조기 P파 뒤 좁은 QRS가 나타나는 소견은?',o:['PAC','PVC','심실빈맥','무수축'],a:0,d:'심방 이소성 초점의 조기 탈분극으로 P파 모양과 타이밍이 달라집니다.',f:'변형된 조기 P파, 대개 좁은 QRS',n:'증상과 빈도를 확인하고 유발 요인을 평가합니다.',w:'pac'},
+ {c:'전도장애',l:'basic',t:'1도 방실차단',h:68,r:'규칙적',q:'모든 P파가 전도되지만 PR 간격이 0.20초보다 긴 리듬은?',o:['1도 방실차단','Mobitz II','완전 방실차단','심방세동'],a:0,d:'방실 전도가 지연되지만 빠지는 QRS는 없습니다.',f:'일정하게 연장된 PR, P-QRS 1:1',n:'원인 약물과 증상을 확인하며 모니터링합니다.',w:'av1'},
+ {c:'전도장애',l:'advanced',t:'2도 방실차단 Mobitz I',h:54,r:'군집박동',q:'PR 간격이 점차 길어진 뒤 QRS가 탈락하는 현상은?',o:['Mobitz I','Mobitz II','3도 방실차단','WPW'],a:0,d:'Wenckebach 주기로 PR이 점진적으로 연장된 뒤 한 박동이 전도되지 않습니다.',f:'점진적 PR 연장 후 QRS 탈락',n:'서맥 증상과 혈역학 상태를 평가합니다.',w:'mobitz1'},
+ {c:'전도장애',l:'advanced',t:'2도 방실차단 Mobitz II',h:42,r:'간헐적 QRS 탈락',q:'PR 간격 변화 없이 갑자기 QRS가 탈락하는 고위험 전도장애는?',o:['Mobitz II','Mobitz I','1도 방실차단','동성부정맥'],a:0,d:'전도된 박동의 PR은 일정하지만 일부 P파 뒤 QRS가 발생하지 않습니다.',f:'일정 PR과 갑작스러운 비전도 P파',n:'완전 차단 진행에 대비해 즉시 심박동조율을 준비합니다.',w:'mobitz2'},
+ {c:'응급리듬',l:'basic',t:'무수축',h:0,r:'심실 활동 없음',q:'두 유도에서 실제 무수축이 확인되면 가장 먼저 할 처치는?',o:['고품질 CPR 시작','제세동','동기화 심율동전환','미주신경 자극'],a:0,d:'심실 전기활동이 없어 거의 평평한 선으로 보이는 비충격성 리듬입니다.',f:'QRS 없음, 미세한 기준선 흔들림만 존재',n:'전극 연결을 확인하고 고품질 CPR과 가역 원인 교정을 시행합니다.',w:'asystole'},
+ {c:'인공심박동',l:'advanced',t:'심실 조율 리듬',h:70,r:'규칙적',q:'각 넓은 QRS 직전의 가느다란 수직 spike는 무엇을 의미합니까?',o:['심박조율 자극','심방조동 F파','전기적 잡음','델타파'],a:0,d:'심실 pacing spike 직후 심실 포획을 나타내는 넓은 QRS가 발생합니다.',f:'pacing spike 뒤 넓은 QRS, 규칙적 포획',n:'전기적·기계적 포획과 환자 맥박을 함께 확인합니다.',w:'paced'}
 ];
 const $=s=>document.querySelector(s), canvas=$('#ecg'), ctx=canvas.getContext('2d');
-let cur=null, start=performance.now(), raf=0, stats=JSON.parse(localStorage.getItem('ecg-docs-v3')||'{"c":0,"t":0}');
+let cur=null, start=performance.now(), raf=0, stats=JSON.parse(localStorage.getItem('ecg-docs-v4')||'{"c":0,"t":0}');
 const afPattern=[.18,.70,1.16,1.84,2.29,2.92,3.40,4.12,4.59,5.18,5.90,6.35,7.09,7.60];
 [...new Set(data.map(x=>x.c))].forEach(x=>$('#cat').insertAdjacentHTML('beforeend',`<option>${x}</option>`));
 function gauss(x,m,s){const z=(x-m)/s;return Math.exp(-.5*z*z)}
@@ -43,11 +54,21 @@ function beatShape(p,kind='normal',st=0){
  return .13*gauss(p,.11,.035)-.12*gauss(p,.265,.012)+1.05*gauss(p,.30,.014)-.32*gauss(p,.335,.018)+(st?st*(gauss(p,.43,.09)+gauss(p,.56,.12)):0)+.27*gauss(p,.62,.075);
 }
 function deterministicNoise(x){return Math.sin(x*12.9898+78.233)*.55+Math.sin(x*31.17+4.2)*.3+Math.sin(x*73.3)*.15}
+function qrsOnly(p){return -.12*gauss(p,.28,.012)+1.05*gauss(p,.31,.014)-.32*gauss(p,.345,.018)+.27*gauss(p,.62,.075)}
 function sample(type,t){
  if(type==='vf'){const mod=.72+.26*Math.sin(t*1.13)+.12*Math.sin(t*.37);return mod*(.34*Math.sin(t*18.7)+.24*Math.sin(t*25.1+1.4)+.15*Math.sin(t*37.9+.2))+.08*deterministicNoise(t)}
  if(type==='flutter'){const atrial=(t*5)%1;const saw=.13*(1-2*atrial);const cycle=t%0.8;return saw+beatShape(cycle/.8)}
  if(type==='vt'){const cycle=t%(60/182);return beatShape(cycle/(60/182),'wide')}
  if(type==='block'){let y=0;const pp=t%0.72;y+=.13*gauss(pp,.10,.035);const rr=t%1.58;y+=beatShape(rr/1.58,'wide')*.78;return y}
+ if(type==='svt'){const d=60/178,p=((t%d)+d)%d/d;return qrsOnly(p)*.88-.08*gauss(p,.50,.025)}
+ if(type==='asystole')return .008*Math.sin(t*5.1)+.005*deterministicNoise(t);
+ if(type==='paced'){const d=60/70,p=((t%d)+d)%d/d;return 1.18*gauss(p,.175,.004)+beatShape((p-.19)/.78,'wide')*.78}
+ if(type==='pvc'){const p=((t%3.25)+3.25)%3.25;let y=0;for(const b of [.15,1.0,1.68]){const z=(p-b)/.82;if(z>=0&&z<1)y+=beatShape(z)}const v=(p-2.23)/.92;if(v>=0&&v<1)y+=beatShape(v,'wide')*.92;return y}
+ if(type==='bigeminy'){const p=((t%1.65)+1.65)%1.65;let y=0,z=p/.72;if(z<1)y+=beatShape(z);z=(p-.72)/.88;if(z>=0&&z<1)y+=beatShape(z,'wide')*.9;return y}
+ if(type==='pac'){const p=((t%3.0)+3)%3;let y=0;for(const b of [.05,.9,1.53,2.32]){const d=b===1.53?.64:.78,z=(p-b)/d;if(z>=0&&z<1)y+=beatShape(z)*(b===1.53?.9:1)}return y}
+ if(type==='av1'){const d=60/68,p=((t%d)+d)%d/d;return .13*gauss(p,.06,.03)+qrsOnly((p-.16)/.84)}
+ if(type==='mobitz1'){const p=((t%3.2)+3.2)%3.2;let y=0;for(const b of [0,.8,1.6,2.4])y+=.13*gauss(p,b+.08,.03);for(const [b,delay] of [[0,.20],[.8,.26],[1.6,.32]]){const z=(p-b-delay)/.7;if(z>=0&&z<1)y+=qrsOnly(z)}return y}
+ if(type==='mobitz2'){const p=((t%3.2)+3.2)%3.2;let y=0;for(const b of [0,.8,1.6,2.4]){y+=.13*gauss(p,b+.08,.03);if(b!==1.6){const z=(p-b-.18)/.62;if(z>=0&&z<1)y+=qrsOnly(z)}}return y}
  if(type==='af'){
    let y=.026*Math.sin(t*37)+.02*Math.sin(t*53.3+1.1)+.012*deterministicNoise(t);
    const phase=((t%8)+8)%8;for(const b of afPattern){for(const offset of [-8,0]){const p=(phase-(b+offset))/.68;if(p>=0&&p<1)y+=beatShape(p)*.92}}return y;
@@ -59,7 +80,7 @@ function grid(w,h){ctx.fillStyle='#04120f';ctx.fillRect(0,0,w,h);for(let x=0;x<=
 function draw(now){const r=canvas.getBoundingClientRect(),w=r.width,h=r.height;if(!w||!h){raf=requestAnimationFrame(draw);return}grid(w,h);const elapsed=(now-start)/1000,windowSec=window.innerWidth<600?5.2:7.5,base=h*.52,amp=Math.min(h*.32,72);ctx.beginPath();for(let x=0;x<=w;x+=1.5){const t=elapsed-windowSec+(x/w)*windowSec,y=base-sample(cur?.w||'sinus',t)*amp;x?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.strokeStyle='#68f3d8';ctx.lineWidth=2.6;ctx.lineJoin='round';ctx.lineCap='round';ctx.shadowColor='rgba(104,243,216,.65)';ctx.shadowBlur=5;ctx.stroke();ctx.shadowBlur=0;$('#sweep').style.transform=`translateX(${((elapsed*115)%(w+70))-70}px)`;raf=requestAnimationFrame(draw)}
 function pct(){$('#pct').textContent=stats.t?Math.round(stats.c/stats.t*100)+'%':'0%'}
 function next(){const pool=data.filter(x=>($('#cat').value==='전체'||x.c===$('#cat').value)&&($('#level').value==='all'||x.l===$('#level').value));cur=pool[Math.floor(Math.random()*pool.length)];start=performance.now();$('#tag').textContent=cur.c;$('#title').textContent=cur.t;$('#hr').textContent=cur.h||'—';$('#regularity').textContent='리듬 '+cur.r;$('#q').textContent=cur.q;$('#fb').textContent='';$('#exp').classList.remove('show');$('#opts').innerHTML='';cur.o.forEach((o,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=String.fromCharCode(65+i)+'. '+o;b.onclick=()=>ans(i,b);$('#opts').appendChild(b)})}
-function ans(i,b){document.querySelectorAll('.opt').forEach((x,n)=>{x.disabled=true;if(n===cur.a)x.classList.add('correct')});if(i!==cur.a)b.classList.add('wrong');stats.t++;if(i===cur.a)stats.c++;localStorage.setItem('ecg-docs-v3',JSON.stringify(stats));pct();$('#fb').textContent=i===cur.a?'정답입니다.':'오답입니다. 정답과 근거를 확인하세요.';$('#desc').textContent=cur.d;$('#finding').textContent=cur.f;$('#action').textContent=cur.n;$('#exp').classList.add('show')}
+function ans(i,b){document.querySelectorAll('.opt').forEach((x,n)=>{x.disabled=true;if(n===cur.a)x.classList.add('correct')});if(i!==cur.a)b.classList.add('wrong');stats.t++;if(i===cur.a)stats.c++;localStorage.setItem('ecg-docs-v4',JSON.stringify(stats));pct();$('#fb').textContent=i===cur.a?'정답입니다.':'오답입니다. 정답과 근거를 확인하세요.';$('#desc').textContent=cur.d;$('#finding').textContent=cur.f;$('#action').textContent=cur.n;$('#exp').classList.add('show')}
 $('#next').onclick=next;$('#cat').onchange=next;$('#level').onchange=next;addEventListener('resize',resize);document.addEventListener('visibilitychange',()=>{if(!document.hidden)start=performance.now()});resize();pct();next();raf=requestAnimationFrame(draw);
 </script>
 </body>
