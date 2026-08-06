@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="PC와 모바일에서 학습하는 심전도 리듬 퀴즈" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>ECG Rhythm Lab</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">ECG-QA 기반 교육용 프로토타입</p>
+      <h1>ECG Rhythm Lab</h1>
+    </div>
+    <button id="installBtn" class="ghost" hidden>앱 설치</button>
+  </header>
+
+  <main class="shell">
+    <section class="hero card">
+      <div>
+        <span class="pill">반응형 · 오프라인 지원</span>
+        <h2>심전도를 보고, 판단하고, 근거를 확인하세요.</h2>
+        <p>협심증의 허혈성 ST 변화부터 심방세동, 방실차단, 심실빈맥까지 단계적으로 학습합니다.</p>
+      </div>
+      <div class="score-box" aria-live="polite">
+        <span>현재 점수</span>
+        <strong id="score">0 / 0</strong>
+      </div>
+    </section>
+
+    <section class="controls card" aria-label="학습 설정">
+      <label>학습 영역
+        <select id="category"></select>
+      </label>
+      <label>난이도
+        <select id="level">
+          <option value="all">전체</option>
+          <option value="basic">기초</option>
+          <option value="advanced">심화</option>
+        </select>
+      </label>
+      <button id="nextBtn" class="primary">새 문제</button>
+    </section>
+
+    <section class="workspace">
+      <article class="monitor card">
+        <div class="monitor-head">
+          <div>
+            <span id="caseTag" class="pill">리듬</span>
+            <h3 id="caseTitle">문제를 불러오는 중입니다</h3>
+          </div>
+          <div class="vitals"><span>HR</span><strong id="heartRate">--</strong><small>/min</small></div>
+        </div>
+        <div class="ecg-wrap" aria-label="교육용 심전도 파형">
+          <svg id="ecgSvg" viewBox="0 0 1000 320" role="img" aria-labelledby="waveTitle">
+            <title id="waveTitle">교육용 합성 심전도 파형</title>
+            <defs>
+              <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M 10 0 L 0 0 0 10" class="grid-small" fill="none" />
+              </pattern>
+              <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                <rect width="50" height="50" fill="url(#smallGrid)" />
+                <path d="M 50 0 L 0 0 0 50" class="grid-large" fill="none" />
+              </pattern>
+            </defs>
+            <rect width="1000" height="320" fill="url(#grid)" />
+            <path id="wavePath" class="wave" d="" />
+          </svg>
+        </div>
+        <p class="disclaimer">교육용 합성 파형입니다. 실제 진단이나 환자 처치에 사용하지 마세요.</p>
+      </article>
+
+      <aside class="quiz card">
+        <p class="question-label">문제</p>
+        <h3 id="question"></h3>
+        <div id="options" class="options"></div>
+        <div id="feedback" class="feedback" hidden></div>
+        <button id="explainBtn" class="ghost full" hidden>해설 보기</button>
+      </aside>
+    </section>
+
+    <section id="explanation" class="explanation card" hidden>
+      <h3>판독 근거</h3>
+      <p id="explanationText"></p>
+      <div class="key-points">
+        <div><span>핵심 소견</span><strong id="keyFinding"></strong></div>
+        <div><span>우선 간호 판단</span><strong id="nursingAction"></strong></div>
+      </div>
+    </section>
+
+    <section class="progress card">
+      <div class="section-head"><h3>학습 기록</h3><button id="resetBtn" class="text-btn">초기화</button></div>
+      <div class="progress-track"><div id="progressBar"></div></div>
+      <p id="progressText">아직 풀이 기록이 없습니다.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>ECG-QA 데이터셋 구조를 참고한 독립 교육용 인터페이스 · 원저작물 CC BY 4.0 표기</p>
+  </footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
