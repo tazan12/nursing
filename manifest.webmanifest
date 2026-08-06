@@ -1,0 +1,11 @@
+{
+  "name": "ECG Rhythm Lab",
+  "short_name": "ECG Lab",
+  "description": "PC와 모바일에서 학습하는 심전도 리듬 퀴즈",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070b16",
+  "theme_color": "#0b1020",
+  "lang": "ko-KR",
+  "icons": []
+}
